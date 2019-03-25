@@ -26,9 +26,47 @@ Open Topics page from Big Data section in the menu and create a topic with a nam
 1.  Go to Compute Section of the menu and open VM Instances page from Compute Engine.
 2.  Click on Create Instance.
 3.  After entering the Machine type, region etc, select Set Access for each API as option for Access Scopes and select Cloud DataStore and Cloud Pub/Sub and enable them.
+
 ![instance](https://user-images.githubusercontent.com/4006576/54916880-8460e080-4f20-11e9-8c4c-69475a230efb.png)
 
 4.  Expand Management, security, disks, networking, sole tenancy section and enter the below script in the Startup script text box in Automation section. Give the name of the topic that is created in the gcloud publish command.
+
+        #! /bin/bash
+
+        orgName='Internal'
+        domainName='tcpwave.com'
+        ttl='1200'
+        action='add'
+
+        instanceid=$(curl http://metadata/computeMetadata/v1/instance/id -H "Metadata-Flavor: Google")
+        hname=$(curl http://metadata/computeMetadata/v1/instance/name -H "Metadata-Flavor: Google")
+        iip=$(curl http://metadata/computeMetadata/v1/instance/network-interfaces/0/ip -H "Metadata-Flavor: Google")
+        projId=$(curl "http://metadata.google.internal/computeMetadata/v1/project/project-id" -H "Metadata-Flavor: Google")
+
+        gcloud pubsub topics publish DDIAutomation  --attribute                   
+        id=$instanceid,name=$hname,ip=$iip,orgName=$orgName,domainName=$domainName,ttl=$ttl,action=$action,projectId=$projId
+
+5.  In the Metadata section, add key value pair, shutdown-script as the key and below script as the value. Give the name of the topic that is created in the gcloud publish command.
+
+        #! /bin/bash
+
+        orgName='Internal'
+        domainName='tcpwave.com'
+        ttl='1200'
+        action=’delete’
+
+        instanceid=$(curl http://metadata/computeMetadata/v1/instance/id -H "Metadata-Flavor: Google")
+        hname=$(curl http://metadata/computeMetadata/v1/instance/name -H "Metadata-Flavor: Google")
+        iip=$(curl http://metadata/computeMetadata/v1/instance/network-interfaces/0/ip -H "Metadata-Flavor: Google")
+        projId=$(curl "http://metadata.google.internal/computeMetadata/v1/project/project-id" -H "Metadata-Flavor: Google")
+
+        gcloud pubsub topics publish DDIAutomamtion  --attribute  
+        id=$instanceid,name=$hname,ip=$iip,orgName=$orgName,domainName=$domainName,ttl=$ttl,action=$action,projectId=$projId
+        
+Create instance with the above settings.
+With the above successful settings, an object in IPAM will be created when instance is started and object will be deleted when the instance is stopped.
+
+
 
 
 
