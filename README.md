@@ -20,8 +20,15 @@ Open Topics page from Big Data section in the menu and create a topic with a nam
 6.	Select first option in the Stage bucket dropdown.
 7.	Give createInstance as the function to execute.
 8.	Click on Create.
+
 ![function](https://user-images.githubusercontent.com/4006576/54915789-fb48aa00-4f1d-11e9-9516-24e8b0c9d5b1.PNG)
 ## 3.3 Create Instance using Startup/Shutdown scripts
 1.  Go to Compute Section of the menu and open VM Instances page from Compute Engine.
 2.  Click on Create Instance.
 3.  After entering the Machine type, region etc, select Set Access for each API as option for Access Scopes and select Cloud DataStore and Cloud Pub/Sub and enable them.
+![instance](https://user-images.githubusercontent.com/4006576/54916880-8460e080-4f20-11e9-8c4c-69475a230efb.png)
+
+4.  Expand Management, security, disks, networking, sole tenancy section and enter the below script in the Startup script text box in Automation section. Give the name of the topic that is created in the gcloud publish command.
+
+
+
