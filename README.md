@@ -9,12 +9,13 @@ The purpose of this content is to give a high-level overview of configuring Goog
 3.	Enable Google Cloud Functions.
 ## 3.2 Create a Topic
 Open Topics page from Big Data section in the menu and create a topic with a name.
+
 ![topic](https://user-images.githubusercontent.com/4006576/54914576-47deb600-4f1b-11e9-9090-2e54b8e91088.png)
 ## 3.2 Create a Function
 1.	Open Cloud Functions page from Compute section in the menu and create a function.
 2.	Enter Name of the function, Select Google Pub/Sub as Trigger, select the Topic that’s created in the above step.
 3.	Select ZIP upload option for the Source Code and upload UpdateIPAM.zip.
-4.	Note: Please unzip the file, update client.pem, client.crt and client.key with the certificates created for the IPAM, zip the file again.
+    Note: Please unzip the file, update client.pem, client.crt and client.key with the certificates created for the IPAM, zip the file again.
 5.	Select Node.js 8(Beta) as the Runtime.
 6.	Select first option in the Stage bucket dropdown.
 7.	Give createInstance as the function to execute.
