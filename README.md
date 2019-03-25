@@ -15,7 +15,7 @@ Open Topics page from Big Data section in the menu and create a topic with a nam
 1.	Open Cloud Functions page from Compute section in the menu and create a function.
 2.	Enter Name of the function, Select Google Pub/Sub as Trigger, select the Topic that’s created in the above step.
 3.	Select ZIP upload option for the Source Code and upload UpdateIPAM.zip.
-    Note: Please unzip the file, update client.pem, client.crt and client.key with the certificates created for the IPAM, zip the file         again.
+4.	Note: Please unzip the file, update client.pem, client.crt and client.key with the certificates created for the IPAM, zip the file again.
 5.	Select Node.js 8(Beta) as the Runtime.
 6.	Select first option in the Stage bucket dropdown.
 7.	Give createInstance as the function to execute.
