@@ -11,7 +11,7 @@ The purpose of this content is to give a high-level overview of configuring Goog
 Open Topics page from Big Data section in the menu and create a topic with a name.
 
 ![topic](https://user-images.githubusercontent.com/4006576/54914576-47deb600-4f1b-11e9-9090-2e54b8e91088.png)
-## 3.2 Create a Function
+## 3.3 Create a Function
 1.	Open Cloud Functions page from Compute section in the menu and create a function.
 2.	Enter Name of the function, Select Google Pub/Sub as Trigger, select the Topic that’s created in the above step.
 3.	Select ZIP upload option for the Source Code and upload UpdateIPAM.zip.
@@ -22,7 +22,7 @@ Open Topics page from Big Data section in the menu and create a topic with a nam
 8.	Click on Create.
 
 ![function](https://user-images.githubusercontent.com/4006576/54915789-fb48aa00-4f1d-11e9-9516-24e8b0c9d5b1.PNG)
-## 3.3 Create Instance using Startup/Shutdown scripts
+## 3.4 Create Instance using Startup/Shutdown scripts
 1.  Go to Compute Section of the menu and open VM Instances page from Compute Engine.
 2.  Click on Create Instance.
 3.  After entering the Machine type, region etc, select Set Access for each API as option for Access Scopes and select Cloud DataStore and Cloud Pub/Sub and enable them.
@@ -99,15 +99,18 @@ https://cloud.google.com/docs/authentication/production#obtaining_and_providing_
 
 ### 5.2.3 Create a node.js function
 Create a function with below code and give a name to it.
-This function gets data from Google Datastore table ‘cloud_automation’ and processes the data and delete the processed rows from cloud_automation table.
+This function gets data from Google Datastore table ‘cloud_automation’ and processes the data and deletes the processed rows from cloud_automation table.
 In a row, if the value of operation is add, the function adds objects in QIP. If the operation is delete, it deleted object from QIP.
 A CRON job can be created to execute this function at a regular interval of time.
 Note: In the function, modify the HTTPS_PROXY, domain, projectId and keyFileName before executing it.
 
 Command to execute the function is below
-        node test.js(File name)
+        
+	node test.js(File name)
+
 File content is below
-        const Datastore = require('@google-cloud/datastore');
+        
+	const Datastore = require('@google-cloud/datastore');
         const exec = require('child_process').execSync;
         const moment = require('moment');
         exec('. /opt/qip/etc/shrc');
@@ -117,9 +120,7 @@ File content is below
         exec('touch /tmp/process-delete');
         exec('/bin/chmod +x /tmp/process-delete');
         var domain= 'aws.namdev.nsrootdev.net';
-
-        exec('echo "ObjectAddress,ObjectName,DomainName,ObjectClass,ObjectDescription,Aliases,NameService,DynamicDNSUpdate" > /var/tmp/format');
-
+	exec('echo "ObjectAddress,ObjectName,DomainName,ObjectClass,ObjectDescription,Aliases,NameService,DynamicDNSUpdate" > /var/tmp/format');
         const datastore = new Datastore({
           projectId: 'jyothi-218412',
           keyFilename: 'Jyothi-630530137299.json'
