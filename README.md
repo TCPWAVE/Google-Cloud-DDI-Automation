@@ -10,7 +10,7 @@ The purpose of this content is to give a high-level overview of configuring Goog
 ## 3.2 Create a Topic
 Open Topics page from Big Data section in the menu and create a topic with a name.
 
-![topic](https://user-images.githubusercontent.com/4006576/54990464-d406e100-4fe0-11e9-9aec-2c8b243911d7.png)
+![topic](https://user-images.githubusercontent.com/4006576/54990908-d453ac00-4fe1-11e9-82f6-81b03f4b8f7b.png)
 ## 3.3 Create a Function
 1.	Open Cloud Functions page from Compute section in the menu and create a function.
 2.	Enter Name of the function, Select Google Pub/Sub as Trigger, select the Topic that’s created in the above step.
