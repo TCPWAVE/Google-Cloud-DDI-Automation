@@ -78,7 +78,7 @@ Enable Google Cloud Functions.
 
 ![entity](https://user-images.githubusercontent.com/4006576/54990552-044e7f80-4fe1-11e9-8813-b58ceb566360.png)
 
-Repeat the steps that are present in the section: # 3. Configuration Steps to send updates to TCPWave IPAM with UpdateDatastore.zip as the function to be uploaded. Function to execute is updateDataStore.
+Repeat the steps that are present in the section: **Configuration Steps to send updates to TCPWave IPAM** with UpdateDatastore.zip as the function to be uploaded. Function to execute is updateDataStore.
 As the zip file doesn’t contain certificate files, there is no need to update them.
 After the completion of above steps, if the instance is started/stopped, the row with instance details will be added in the cloud_automation table.
 
