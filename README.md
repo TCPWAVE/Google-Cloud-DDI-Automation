@@ -92,7 +92,7 @@ After the completion of above steps, if the instance is started/stopped, the row
 ### 5.2.1 Install google-cloud/datastore packages using below command
         npm install --save @google-cloud/datastore
 ### 5.2.2 Create Google Cloud Service Account
-Follow the steps provided in the below screenshot and download the JSON to the current folder and give this path as keyFileName in the node js function created in the next step.
+Follow the steps provided in the below screenshot from the documentation and download the JSON to the current folder and give this path as keyFileName in the node js function created in the next step.
 https://cloud.google.com/docs/authentication/production#obtaining_and_providing_service_account_credentials_manually
 
 ![service-account](https://user-images.githubusercontent.com/4006576/54974230-57144100-4fb9-11e9-867c-f703296facc4.png)
@@ -104,7 +104,7 @@ In a row, if the value of operation is add, the function adds objects in QIP. If
 A CRON job can be created to execute this function at a regular interval of time.
 Note: In the function, modify the HTTPS_PROXY, domain, projectId and keyFileName before executing it.
 
-Command to execute the function is below
+Use the below command to execute the function 
         
 	node test.js(File name)
 
@@ -194,10 +194,8 @@ File content is below
 						console.log('Failed to delete object: '+ip+' '+n+' '+d+" "+data);
 					});
 				}
-                
-  }
-
-});
+                	}
+		});
 
 
 
