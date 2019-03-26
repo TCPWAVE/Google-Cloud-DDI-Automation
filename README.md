@@ -65,7 +65,24 @@ Open Topics page from Big Data section in the menu and create a topic with a nam
         
 Create instance with the above settings.
 With the above successful settings, an object in IPAM will be created when instance is started and object will be deleted when the instance is stopped.
+# 4. Configuration Steps to send updates to Google Datastore
+## 4.1 Prerequisites
+Project should be attached to billing account. 
+Enable Google Cloud Functions.
+## 4.2 Create Entity
+1.	Open Entities page from Datastore menu of Storage section from main menu.
+2.	Click on Create Entity. 
+3.	Enter cloud_automation in the Kind input box.
+4.	Select Numeric ID as the Key identifier.
+5.	Click on Create.
 
+![entity](https://user-images.githubusercontent.com/4006576/54973953-2e3f7c00-4fb8-11e9-9e24-bce622dacbdd.png)
+
+Repeat the steps that are present in the section: Configuration Steps to send updates to TCPWave IPAM with UpdateDatastore.zip as the function to be uploaded. Function to execute is updateDataStore.
+As the zip file doesn’t contain certificate files, there is no need to update them.
+After the completion of above steps, if the instance is started/stopped, the row with instance details will be added in the cloud_automation table.
+
+![entity1](https://user-images.githubusercontent.com/4006576/54973984-54fdb280-4fb8-11e9-9381-3ab3a48f3c12.png)
 
 
 
