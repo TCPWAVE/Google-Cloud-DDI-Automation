@@ -4,7 +4,7 @@ The purpose of this content is to give a high-level overview of configuring Goog
 ![architecture](https://user-images.githubusercontent.com/4006576/54914264-9475c180-4f1a-11e9-8e3b-3e3d62cd9f4c.png)
 # 3. Configuration Steps to send updates to TCPWave IPAM
 ## 3.1 Prerequisites
-1.	Project should be attached to billing account. 
+1.	Project should be attached to the billing account. 
 2.	Enable Firebase in the url: https://console.firebase.google.com/  and add the project to it.
 3.	Enable Google Cloud Functions.
 ## 3.2 Create a Topic
@@ -67,7 +67,7 @@ Create instance with the above settings.
 With the above successful settings, an object in IPAM will be created when instance is started and object will be deleted when the instance is stopped.
 # 4. Configuration Steps to send updates to Google Datastore
 ## 4.1 Prerequisites
-Project should be attached to billing account. 
+Project should be attached to the billing account. 
 Enable Google Cloud Functions.
 ## 4.2 Create Entity
 1.	Open Entities page from Datastore menu of Storage section from main menu.
@@ -84,6 +84,119 @@ After the completion of above steps, if the instance is started/stopped, the row
 
 ![entity1](https://user-images.githubusercontent.com/4006576/54973984-54fdb280-4fb8-11e9-9381-3ab3a48f3c12.png)
 
+# 5. Configuration Steps to update QIP
+## 5.1 Prerequisites
+1.	updateDataStore function must be created and added as a trigger to the Cloud Pub/Sub topic. This topic must be mentioned in the start-up and shutdown scripts while creating instances.
+2.	Node js must be installed.
+## 5.2 Steps
+### 5.2.1 Install google-cloud/datastore packages using below command
+        npm install --save @google-cloud/datastore
+### 5.2.2 Create Google Cloud Service Account
+Follow the steps provided in the below screenshot and download the JSON to the current folder and give this path as keyFileName in the node js function created in the next step.
+https://cloud.google.com/docs/authentication/production#obtaining_and_providing_service_account_credentials_manually
+
+![service-account](https://user-images.githubusercontent.com/4006576/54974230-57144100-4fb9-11e9-867c-f703296facc4.png)
+
+### 5.2.3 Create a node.js function
+Create a function with below code and give a name to it.
+This function gets data from Google Datastore table ‘cloud_automation’ and processes the data and delete the processed rows from cloud_automation table.
+In a row, if the value of operation is add, the function adds objects in QIP. If the operation is delete, it deleted object from QIP.
+A CRON job can be created to execute this function at a regular interval of time.
+Note: In the function, modify the HTTPS_PROXY, domain, projectId and keyFileName before executing it.
+
+Command to execute the function is below
+        node test.js(File name)
+File content is below
+        const Datastore = require('@google-cloud/datastore');
+        const exec = require('child_process').execSync;
+        const moment = require('moment');
+        exec('. /opt/qip/etc/shrc');
+        exec('export HTTPS_PROXY=https://cspapiproxy-lab.nam.nsroot.net:80');
+        exec('touch /tmp/process-add');
+        exec('/bin/chmod +x /tmp/process-add');
+        exec('touch /tmp/process-delete');
+        exec('/bin/chmod +x /tmp/process-delete');
+        var domain= 'aws.namdev.nsrootdev.net';
+
+        exec('echo "ObjectAddress,ObjectName,DomainName,ObjectClass,ObjectDescription,Aliases,NameService,DynamicDNSUpdate" > /var/tmp/format');
+
+        const datastore = new Datastore({
+          projectId: 'jyothi-218412',
+          keyFilename: 'Jyothi-630530137299.json'
+        });
+
+        const query = datastore.createQuery('cloud_automation');
+
+        datastore.runQuery(query, function(err, entities) {
+          // entities = An array of records.
+
+          // Access the Key object for an entity.
+          const firstEntityKey = entities[0][datastore.KEY];
+        console.log("Number of rows fetched from Google datastore: "+entities.length);
+          for(var i in entities)
+          {
+                        var e = entities[i];
+                        var ip = e.ip;
+                        var ts = e.timestamp;
+                        var op = e.operation;
+                        var n = e.name;
+                        var key = e[datastore.KEY]
+                        var id = key.id;
+                                        var d = new Date(Number(ts));
+
+                if(op == 'add')
+				{
+					var v =  ip+','+n+','+domain+',server,,,\'A,PTR\',\'A,PTR,CNAME,MX\'';
+					var cmd = 'echo \"'+v + '\" > /tmp/process-add';
+					exec(cmd);
+					console.log('Adding object: '+ip+' '+n+' '+d);
+					const addObj = exec('qip-setobject -f /var/tmp/format -d /tmp/process-add');
+
+					addObj.stdout.on('data', function(data){
+						console.log('Added object: '+ip+' '+n+' '+d);
+						if(data == '0')
+						{
+							datastore.delete(key, function(err) {
+							  if (!err) {
+									console.log('Record deleted successfully. Deleted record id: '+key.id);
+							  }
+							});
+						}	
+					});
+
+					addObj.stderr.on('data', function(data){
+						console.log('Failed to add object: '+ip+' '+n+' '+d+" "+data);
+					});
+				}
+				else if(op == 'delete')
+				{
+					var v =  'qip-del -t object -a '+ip;
+					var cmd = 'echo \"'+v + '\" > /tmp/process-delete';
+					exec(cmd);
+					console.log('Deleting object: '+ip+' '+n+' '+d);
+					
+					const deleteObj = exec('/tmp/process-delete');
+
+					deleteObj.stdout.on('data', function(data){
+						console.log('Deleted object: '+ip+' '+n+' '+d);
+						if(data == '0')
+						{
+							datastore.delete(key, function(err) {
+							  if (!err) {
+									console.log('Record deleted successfully. Deleted record id: '+key.id);
+							  }
+							});
+						}	
+					});
+
+					deleteObj.stderr.on('data', function(data){
+						console.log('Failed to delete object: '+ip+' '+n+' '+d+" "+data);
+					});
+				}
+                
+  }
+
+});
 
 
 
