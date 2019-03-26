@@ -10,7 +10,7 @@ The purpose of this content is to give a high-level overview of configuring Goog
 ## 3.2 Create a Topic
 Open Topics page from Big Data section in the menu and create a topic with a name.
 
-![topic](https://user-images.githubusercontent.com/4006576/54914576-47deb600-4f1b-11e9-9090-2e54b8e91088.png)
+![topic](https://user-images.githubusercontent.com/4006576/54990464-d406e100-4fe0-11e9-9aec-2c8b243911d7.png)
 ## 3.3 Create a Function
 1.	Open Cloud Functions page from Compute section in the menu and create a function.
 2.	Enter Name of the function, Select Google Pub/Sub as Trigger, select the Topic that’s created in the above step.
@@ -21,7 +21,7 @@ Open Topics page from Big Data section in the menu and create a topic with a nam
 7.	Give createInstance as the function to execute.
 8.	Click on Create.
 
-![function](https://user-images.githubusercontent.com/4006576/54915789-fb48aa00-4f1d-11e9-9516-24e8b0c9d5b1.PNG)
+![function](https://user-images.githubusercontent.com/4006576/54990501-e8e37480-4fe0-11e9-952f-e8aa17a76f07.PNG)
 ## 3.4 Create Instance using Startup/Shutdown scripts
 1.  Go to Compute Section of the menu and open VM Instances page from Compute Engine.
 2.  Click on Create Instance.
@@ -76,13 +76,13 @@ Enable Google Cloud Functions.
 4.	Select Numeric ID as the Key identifier.
 5.	Click on Create.
 
-![entity](https://user-images.githubusercontent.com/4006576/54973953-2e3f7c00-4fb8-11e9-9e24-bce622dacbdd.png)
+![entity](https://user-images.githubusercontent.com/4006576/54990552-044e7f80-4fe1-11e9-8813-b58ceb566360.png)
 
 Repeat the steps that are present in the section: Configuration Steps to send updates to TCPWave IPAM with UpdateDatastore.zip as the function to be uploaded. Function to execute is updateDataStore.
 As the zip file doesn’t contain certificate files, there is no need to update them.
 After the completion of above steps, if the instance is started/stopped, the row with instance details will be added in the cloud_automation table.
 
-![entity1](https://user-images.githubusercontent.com/4006576/54973984-54fdb280-4fb8-11e9-9381-3ab3a48f3c12.png)
+![entity1](https://user-images.githubusercontent.com/4006576/54990571-0d3f5100-4fe1-11e9-8288-139863f9d39d.png)
 
 
 
